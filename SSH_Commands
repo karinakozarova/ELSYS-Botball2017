@@ -1,0 +1,8 @@
+Връзка през SSH: 
+
+
+gcc haybales.c create_functions.c -Wall -std=c11 -pedantic -o run -lwallaby
+
+scp [папката с кода на твоя комп]/* root@192.168.125.1:/home/root/Documents/ELSYS/[име на програмата]/
+
+ssh root@192.168.125.1
