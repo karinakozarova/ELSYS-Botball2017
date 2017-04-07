@@ -101,8 +101,8 @@ void bring_servo_down(){
 
 void close_clippers(){
 	enable_servos();
-	//TO DO: write the real code
-	set_servo_position(CLIPPER_OPEN_CLOSE_PORT,0);
+	set_servo_position(1,1850);
+        printf("Close");
 	disable_servos();
 }
 
