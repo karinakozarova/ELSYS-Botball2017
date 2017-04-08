@@ -47,18 +47,15 @@ void backward_movement_3s();
 int main()
 {
     //light_sensor(LIGHT_SENSOR_PORT ); //add this when not testing
-   	//clippers_up();
-    //clippers_close();
-
+   
   initial_positions();
   clippers_starting_position();
- //clippers_up();
   wait_for_milliseconds(3000);
- clippers_open();	
+  clippers_open();	
   wait_for_milliseconds(2000);
- clippers_close();
+  clippers_close();
   wait_for_milliseconds(2000);
- clippers_down();
+  clippers_down();
   
 
   
@@ -100,7 +97,7 @@ void follow_black_line(){
 
 void initial_positions()
 { 
-  // null position
+  	// null position;
 	set_servo_position(0, 268);
 	set_servo_position(1, 400);
  	enable_servos();
@@ -108,24 +105,26 @@ void initial_positions()
 
 void clippers_up()
 {
+	printf("Up\n");
 	set_servo_position( CLIPPER_UP_DOWN_PORT, CLIPPERS_MAX);
  	enable_servos();
 }
 
 void clippers_down()
 {
+	printf("Down\n");
 	set_servo_position( CLIPPER_UP_DOWN_PORT, CLIPPERS_NULL);
  	enable_servos();
 }
 
 void clippers_open(){
-  printf("Open");
+  printf("Open\n");
 	set_servo_position(CLIPPER_OPEN_CLOSE_PORT, 500);
  	enable_servos();
 }
 
 void clippers_close(){
-  printf("close");
+  	printf("Close\n");
 	set_servo_position(CLIPPER_OPEN_CLOSE_PORT, 0);
  	enable_servos();
 }
@@ -139,9 +138,8 @@ void clippers_starting_position(){
 
 void button_reading(){
   //TO BE TESTED!!!!
-  if(!digital(Button_Port))
+  if(!digital(Button_Port))  //button is triggered
   {
- 	 //button is triggered
       printf("In");
   	  backward_movement_3s();
   	  clippers_up();
@@ -153,11 +151,12 @@ void button_reading(){
 }
   
 void backward_movement_3s(){
-  	int i;	
+  	//moves backward for 3 seconds
+	int i;	
   	for(i=0;i<800;i++) 
-    {
+   	 {
     		mav(3,-2500);
-  		 	mav(0,-2500);
-    }
-    ao();
+  	 	mav(0,-2500);
+  	  }
+    	ao();
   }
