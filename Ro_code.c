@@ -28,7 +28,7 @@ void clippers_down();
 void clippers_open();
 void clippers_close();
 void clippers_starting_position();
-
+void button_reading();
 
 
 /* -------------------------------------------------------------------------------
