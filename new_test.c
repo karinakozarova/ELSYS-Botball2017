@@ -14,7 +14,6 @@
 
 //SERVO PORTS:
 #define CLIPPER_UP_DOWN_PORT 1 //servo 1
-#define CLIPPER_OPEN_CLOSE_PORT 0 //servo 2
 
 //CONSTS
 #define BLACKLINE_MAX 1500 //blackline velocity
@@ -24,7 +23,6 @@
 
 #define WHEEL_CIRCUMFERANCE 175.8 // in mm
 #define DISTANCE_BETWEEN_WHEELS 120.0 // in mm
-
 
 //function declaration
 void drive_revolutions_forward(int velocity, float revolutions);
@@ -38,9 +36,12 @@ void follow_black_line();
 void initial_positions();
 void clippers_up(int servo_value);
 void clippers_down(int servo_value);
-void clippers_open(int servo_value);
-void clippers_close(int servo_value);
+void clippers_open(int speed, float revolutions);
+void clippers_close(int speed, float revolutions);
+
 void grab_water_container();
+void drive(int velocity, int port, float revolutions);
+
 /*
 	CLIPPER_OPEN_CLOSE_SERVO value:
 	min: 0;
@@ -68,17 +69,48 @@ int main()
   	turn_left(1000, 270);
   	*/
   	initial_positions(); // setup servos
- 	grab_water_container();
-  	
+  	clippers_up(1000);
+  	//clippers_close(500, 0.2);
+  	msleep(2000);
+  	while(!digital(1)) //infinite loop
+	{
+		follow_black_line();
+      	if(gyro_y() < -250) {  //when on ramp
+          clippers_up(1250);
+        }
+      	
+    }
+  
+  	//drive(-500, 0, 0.2);
+  	//grab_water_container();
+  	ao();
+  	clippers_down(500);
   	return 0;
 }
 
 void initial_positions()
 { 
   	// null positions for servos
-  	clippers_close(250); // change this in the future to 100/50
+  	//clippers_close(250); // change this in the future to 100/50
 	clippers_up(600);
   	enable_servos();
+}
+
+void drive(int velocity, int port, float revolutions) {
+ 	cmpc(port);
+  	if(velocity > 0) {
+    	while(gmpc(port) < 1400 * revolutions) {
+     		mav(port, velocity);
+      		msleep(5);
+    	}
+    }
+ 	else {
+    	while(gmpc(port) > -1400 * revolutions) {
+     		mav(port, velocity);
+      		msleep(5);
+    	}
+    }
+  	ao();
 }
 
 void drive_revolutions_forward(int velocity, float revolutions)
@@ -234,18 +266,19 @@ void clippers_down(int servo_value)
   	msleep(100);
 }
 
-void clippers_open(int servo_value){
+void clippers_open(int speed, float revolutions){
   	printf("Opening clippers...\n");
-	set_servo_position(CLIPPER_OPEN_CLOSE_PORT, servo_value);
+ 	drive(-speed, 1, revolutions);
 }
 
-void clippers_close(int servo_value){
+void clippers_close(int speed, float revolutions){
   	printf("Closing clippers...\n");
-	set_servo_position(CLIPPER_OPEN_CLOSE_PORT, servo_value);
+ 	drive(speed, 1, revolutions);
 }
-
+/*
 void grab_water_container()
 {
+  
   	// NOTE: distances should be adjusted slghtly
   	while(analog(LINE_SENSOR_PORT) < 3000)
 	{
@@ -310,5 +343,6 @@ void grab_water_container()
       drive(500, 20);
     }
   	clippers_down(900);
-    */
+  
 }
+*/
