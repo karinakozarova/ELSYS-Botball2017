@@ -8,14 +8,15 @@
 int main()
 {
 	if(create_init()==-1)
-		return -1;
-	first_bale();
+		return -1;	
+  	first_bale();
 	go_to_bales();
 	get_last_bale();
 	place_bale();
 	get_more_bales();
 	place_bale();
-	/*get_the_bowl();*/
+	few_more_points();
+	//get_the_bowl();
 	create_disconnect();
 	return 0;
 }
