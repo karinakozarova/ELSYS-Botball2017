@@ -1,5 +1,3 @@
-#ifndef BOTBALL_H
-#define BOTBALL_H
 #include <kipr/botball.h>
 #include "create_functions.h"
 #endif
@@ -101,7 +99,7 @@ void place_bale()
 	int x=0;
 	create_forward(BACK_OFF);
 	create_turn_angle(180);
-	create_forward((int)(1.8*PIPE_BUMP));		//(int)
+	create_forward((int)(1.4*PIPE_BUMP));		//(int)
 	create_backward(BACK_OFF + bales_placed*CLAW_DISPLACEMENT);
 	create_turn_right();
 	while(analog(LINE_SENSOR) < BLACK)
@@ -135,20 +133,9 @@ void place_bale()
 void get_last_bale()
 {
 	create_drive_direct(200, 200);
-	move_to_nth_bale(2);	//3?
+	move_to_nth_bale(4);	//3?
 	//create_backward(EARLY_BALE_CORRECTION);
 	//create_backward(LAST_BALE);
-    create_turn_right();
-    set_servo_position(CLAW_SERVO, CLAW_MIDDLE);
-    msleep(WAIT_FOR_SERVO);
-    set_servo_position(CLAW_SERVO, CLAW_LOW);
-    msleep(WAIT_FOR_SERVO);
-    create_turn_right();
-    set_servo_position(CLAW_SERVO, CLAW_HIGH);
-    msleep(WAIT_FOR_SERVO);
-    create_turn_left();
-    create_turn_left();
-    move_to_nth_bale(1);
 	grab_second_bale();
 }
 
@@ -165,31 +152,22 @@ void go_to_bales()
 	set_servo_position(LIFT_SERVO, CLAW_HIGH);
 	create_turn_right();
 	create_forward((int)(1.8*PIPE_BUMP));		//(int)
-	create_backward((int)(1.1*BACK_OFF));		//(int)
+	create_backward((int)(1.4*BACK_OFF));		//(int)
 	create_turn_left();
 }
 
 void get_more_bales()
 {
 	create_backward(RETURN_TO_BALES);
-	create_turn_left();
+	create_turn_right();
 	msleep(500);
-    create_drive_direct(-200, -200);
-    msleep(1500);
-   
-    create_drive_direct(200, 200);
-    msleep(BACK_OFF);
-    
-    create_turn_right();
-    create_turn_right();
-    
 	create_drive_direct(-200, -200);
-    move_to_nth_bale(1);
-	create_forward(EARLY_BALE_CORRECTION);
+	move_to_nth_bale(1);
+	//create_forward(EARLY_BALE_CORRECTION);
 	grab_bale();
 	create_drive_direct(-200, -200);
 	move_to_nth_bale(1);
-	create_forward(EARLY_BALE_CORRECTION);
+	//create_forward(EARLY_BALE_CORRECTION);
 	create_drive_direct(200, 200);
 	msleep(BALE_CATCH_CORRECTION);
 	create_stop();
@@ -207,16 +185,12 @@ void move_to_nth_bale(int n)
 	{	
 		current_value=analog(BALE_SENSOR);
 		printf("%d\n", current_value);
-		if(current_value > BALE_DETECTED+200 && prev_value < BALE_DETECTED+200)
+		if(current_value > BALE_DETECTED && prev_value < BALE_DETECTED)
 		{
-            if(debounceSensor(BALE_SENSOR, 20) <= BALE_DETECTED+200)
-                return;
-            
 			//printf("\n++++++++++++++++++");
 			bales_detected++;
           	printf("Bale detected. Current bale : %d", bales_detected);
 		}
-        
 		prev_value=current_value;      	
 		msleep(10);
 	}
@@ -262,10 +236,4 @@ void few_more_points()
 {
   	create_forward(GET_IN_BARN);
   	create_turn_right();
-}
-
-int debounceSensor(int pin, int time){
-	msleep(time);
-    
-    return analog(pin);
 }
