@@ -17,13 +17,15 @@ void move(int speed_left, int speed_right, int duration){
   	msleep(duration);
   	ao();
 }
-        
+/*
+//Not used function
 void move_servo(int position, int delay){
   	enable_servos();
   	set_servo_position(SERVO_PORT, position);
   	msleep(delay);
   	disable_servos();
-}
+} 
+*/
 
 int main()
 {
