@@ -28,7 +28,6 @@ void clippers_open();
 void clippers_close();
 void clippers_starting_position();
 void backward_movement_3s();
-void forward_movement_3s();
 
 
 /* -------------------------------------------------------------------------------
@@ -154,7 +153,8 @@ void backward_movement_3s(){
   	  }
     	ao();
   }
-
+/*
+//never used but might be useful in the future
   void forward_movement_3s(){
   	//moves forward for 3 seconds
 	int i;	
@@ -165,3 +165,4 @@ void backward_movement_3s(){
   	  }
     	ao();
   }
+*/
