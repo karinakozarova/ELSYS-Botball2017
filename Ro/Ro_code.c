@@ -50,8 +50,8 @@ void forward_movement_3s();
 
 int main()
 {
-    //light_sensor(LIGHT_SENSOR_PORT ); //add this when not testing
-	   
+    	
+	  light_sensor(LIGHT_SENSOR_PORT ); //add this when not testing   
 	  initial_positions();
 	  clippers_starting_position();
 	  wait_for_milliseconds(3000);
