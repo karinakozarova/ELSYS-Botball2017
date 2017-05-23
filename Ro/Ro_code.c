@@ -27,7 +27,6 @@ void clippers_down();
 void clippers_open();
 void clippers_close();
 void clippers_starting_position();
-void button_reading();
 void backward_movement_3s();
 void forward_movement_3s();
 
@@ -143,20 +142,6 @@ void clippers_starting_position(){
 	set_servo_position(CLIPPER_OPEN_CLOSE_PORT, 268);	
 	set_servo_position(CLIPPER_UP_DOWN_PORT, 700);
  	enable_servos();
-}
-
-void button_reading(){
-  //TO BE TESTED!!!!
-  if(!digital(Button_Port))  //button is triggered
-  {
-      	printf("In");
-        backward_movement_3s();
-        clippers_up();
-        follow_black_line();
-        clippers_open();
-  }
-  else follow_black_line();
-  
 }
   
 void backward_movement_3s(){
